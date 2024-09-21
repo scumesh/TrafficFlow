@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shortest Path Results</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <h1>Shortest Path Results</h1>
+
+    <h2>Shortest Path: <%= path.join(' -> ') %></h2>
+    <h3>Total Distance: <%= totalDistance %> km</h3>
+
+    <div id="map" style="height: 500px;"></div>
+    <script>
+        // Dynamic route passed from the backend
+        var pathCoordinates = <%- JSON.stringify(pathCoordinates) %>;
+
+        // Initialize the map
+        var map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Draw the dynamic route on the map
+        var polyline = L.polyline(pathCoordinates, {color: 'blue'}).addTo(map);
+        map.fitBounds(polyline.getBounds());
+    </script>
+</body>
+</html>
